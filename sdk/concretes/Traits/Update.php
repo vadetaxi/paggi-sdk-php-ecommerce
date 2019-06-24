@@ -26,15 +26,16 @@ trait Update
     /**
      * GET METHOD
      *
-     * @param $params Params who will be updated
-     * @param $id     Resource's ID
+     * @param $params  Params who will be updated
+     * @param $id      Resource's ID
+     * @param $timeout false or integer as seconds to timeout the request
      *
      * @return mixed Object representing updated entity
      */
-    public static function update($params, $id)
+    public static function update($params, $id, $timeout = false)
     {
         $class = new \ReflectionClass(self::class);
-        $response = self::makeRequest($class, "PUT", $params, [], $id);
+        $response = self::makeRequest($class, "PUT", $params, [], $id, "", $timeout);
         return self::manageResponse($response);
     }
 }

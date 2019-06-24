@@ -26,18 +26,18 @@ trait Find
     /**
      * GET METHOD
      *
-     * @param $params Resource paramns
+     * @param $params  Resource paramns
+     * @param $id      id
+     * @param $timeout false or integer as seconds to timeout the request
+     * 
      * @throws PaggiException Representation of HTTP error code
      * @return mixed Object representing created entity
      */
-    public static function find($params = [], $id = "")
+    public static function find($params = [], $id = "", $timeout = false)
     {
         $class = new \ReflectionClass(self::class);
-        if (!empty($id)) {
-            $response = self::makeRequest($class, "get", [], $params, $id);
-            return self::manageResponse($response);
-        }
-        $response = self::makeRequest($class, "get", [], $params);
+        
+        $response = self::makeRequest($class, "get", [], $params, $id, "", $timeout);
         return self::manageResponse($response);
     }
 }

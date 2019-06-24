@@ -26,14 +26,15 @@ trait Delete
     /**
      * DELETE METHOD
      *
-     * @param $id The id of the object who will be deleted
+     * @param $id      The id of the object who will be deleted
+     * @param $timeout false or integer as seconds to timeout the request
      *
      * @return boolean Result of the deletion
      */
-    public static function delete($idObject)
+    public static function delete($idObject, $timeout = false)
     {
         $class = new \ReflectionClass(self::class);
-        $response = self::makeRequest($class, "Delete", [], [], $idObject);
+        $response = self::makeRequest($class, "Delete", [], [], $idObject, "", $timeout);
         return self::manageResponse($response);
     }
 }

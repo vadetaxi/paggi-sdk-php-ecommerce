@@ -26,14 +26,16 @@ trait Capture
     /**
      * PUT capture METHOD
      *
-     * @param $id Order ID who you want to cancel
+     * @param $id          Order ID who you want to cancel
+     * @param $requestBody params to body
+     * @param $timeout     false or integer as seconds to timeout the request
      *
      * @return mixed Object representing created entity
      */
-    public static function capture($id, $requestBody = [])
+    public static function capture($id, $requestBody = [], $timeout = false)
     {
         $class = new \ReflectionClass(self::class);
-        $response = self::makeRequest($class, "put", $requestBody, [], $id, "/capture");
+        $response = self::makeRequest($class, "put", $requestBody, [], $id, "/capture", $timeout);
         return self::manageResponse($response);
     }
 }

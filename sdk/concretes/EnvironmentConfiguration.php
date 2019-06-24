@@ -34,6 +34,7 @@ class EnvironmentConfiguration implements IEnvironmentConfiguration
     private static $partnerId = null;
     private static $environment;
     private static $container;
+    private static $timeout = 0;
 
     public function __construct()
     {
@@ -121,6 +122,22 @@ class EnvironmentConfiguration implements IEnvironmentConfiguration
     }
 
     /**
+     * Function who will set the partnerId
+     *
+     * @param float $timeout timeout
+     *
+     * @return boolean
+     */
+    public function setTimeout($timeout)
+    {
+        if (is_numeric($timeout)) {
+            self::$timeout = $timeout;
+            return true;
+        }
+        return false;
+    }
+
+    /**
      * Function who gets the token configured
      *
      * @return boolean
@@ -152,5 +169,15 @@ class EnvironmentConfiguration implements IEnvironmentConfiguration
     public function getPartnerId()
     {
         return self::$partnerId;
+    }
+
+    /**
+     * Function who gets the timeout
+     *
+     * @return float
+     */
+    public function getTimeout()
+    {
+        return self::$timeout;
     }
 }

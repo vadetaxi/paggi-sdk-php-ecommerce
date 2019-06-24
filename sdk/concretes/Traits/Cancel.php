@@ -26,14 +26,15 @@ trait Cancel
     /**
      * PUT cancel METHOD
      *
-     * @param $id Object's ID who will be used for cancelation (Optional)
+     * @param $id      Object's ID who will be used for cancelation (Optional)
+     * @param $timeout false or integer as seconds to timeout the request
      *
      * @return mixed Object representing created entity
      */
-    public static function cancel($id)
+    public static function cancel($id, $timeout = false)
     {
         $class = new \ReflectionClass(self::class);
-        $response = self::makeRequest($class, "put", [], [], $id, "/void");
+        $response = self::makeRequest($class, "put", [], [], $id, "/void", $timeout);
         return self::manageResponse($response);
     }
 }

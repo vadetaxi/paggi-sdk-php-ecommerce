@@ -140,25 +140,29 @@ class RestClient implements IRestClient
      * @param string $url      URL for request
      * @param array  $headers  Headers of the request
      * @param array  $body     Body for the request
+     * @param float  $timeout  seconds to timeout the request
      *
      * @return array
      */
-    public function createRequest($method, $url, $headers = [], $body = [])
+    public function createRequest($method, $url, $headers = [], $body = [], $timeout = 0)
     {
         $client = new \GuzzleHttp\Client();
         array_push($headers, ["User-Agent" => phpversion() . " Guzzle6 " . curl_version()["version"] . " PaggiPHPSDK"]);
-        $request = $client->request(
-            $method,
-            $url,
-            [
-                "headers" => $headers,
-                "json" => $body,
-                "exceptions" => false,
-            ]
-        );
-        // var_dump($headers);
-        // var_dump($body);
-        // var_dump($url);
+
+        try {
+            $request = $client->request(
+                $method,
+                $url,
+                [
+                    "headers" => $headers,
+                    "json" => $body,
+                    "exceptions" => false,
+                    "timeout" => $timeout
+                ]
+            );
+        } catch(\GuzzleHttp\Exception\RequestException $e) {
+            return new \GuzzleHttp\Psr7\Response(502);
+        }
 
         return $request;
     }

@@ -37,10 +37,11 @@ trait Util
      * @param array  $urlParams  parameters used in query url
      * @param string $id         object's ID
      * @param string $options    ["void", "capture", ""]
+     * @param mixed  $timeout    false or integer as seconds to timeout the request
      *
      * @return void
      */
-    public static function makeRequest($class, $method, $bodyParams = [], $urlParams = [], $id = "", $options = "")
+    public static function makeRequest($class, $method, $bodyParams = [], $urlParams = [], $id = "", $options = "", $timeout = false)
     {
 
         //Environment configuration
@@ -62,11 +63,14 @@ trait Util
         $body = $restClient->createBody($bodyParams);
         $url = $restClient->mountURL($endPoint, $env, $partnerId, $id, $urlParams, $options);
 
+        $requestTimeout = $timeout === false ? $envConfigure->getTimeout() : $timeout;
+
         $response = $restClient->createRequest(
             $method,
             $url,
             $headers,
-            $body
+            $body,
+            $requestTimeout
         );
         return $response;
     }

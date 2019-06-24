@@ -26,14 +26,15 @@ trait Create
     /**
      * POST create METHOD
      *
-     * @param $params Parameters used to create any object
+     * @param $params  Parameters used to create any object
+     * @param $timeout false or integer as seconds to timeout the request
      *
      * @return mixed Object representing created entity
      */
-    public static function create($params)
+    public static function create($params, $timeout = false)
     {
         $class = new \ReflectionClass(self::class);
-        $response = self::makeRequest($class, "Post", $params);
+        $response = self::makeRequest($class, "Post", $params, [], "", "", $timeout);
         return self::manageResponse($response);
     }
 }
